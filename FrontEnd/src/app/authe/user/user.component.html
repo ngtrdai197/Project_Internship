@@ -1,0 +1,98 @@
+<div class="border">
+  <div class="titleborder">
+    <div class="cover-user">
+      <img *ngIf="isAvatar===false" class="icon" src="https://slenky.me/uploads/avatars/placeholder.png" (click)="uploadFile.click()">
+      <img id="avatar" class="icon" *ngIf="isAvatar===true" [src]="user.Avatar" (click)="uploadFile.click()">
+      <input type="file" #uploadFile style="display: none;" (change)="onChooseFile($event)">
+      <p class="title">Xin chào: {{userName}}</p>
+    </div>
+  </div>
+  <div class="details">
+    <div class="usernameborder">
+      <p class="username" style="height: 22px;">Tên đăng nhập </p>
+      <p class="show">{{userName}}</p>
+    </div>
+    <div class="emailborder">
+      <p class="email">Email </p>
+      <p class="show">{{email}}</p>
+    </div>
+    <div class="fullnameborder">
+      <p class="fullname">Họ tên </p>
+      <p class="show" *ngIf="!isEdit">{{fullname}}</p>
+      <input class="input" *ngIf="isEdit" type="name" [(ngModel)]="fullname" />
+    </div>
+    <div class="ageborder">
+      <p class="age">Năm sinh</p>
+      <p class="show" *ngIf="!isEdit">{{age | date: 'dd/MM/yyy'}}</p>
+      <input class="input" *ngIf="isEdit" type="date" [(ngModel)]="age" />
+    </div>
+    <div class="genderborder">
+      <p class="gender">Giới tính </p>
+      <p class="show" *ngIf="!isEdit">{{ isGender ? 'Nam' : 'Nữ' }}</p>
+      <div class="chose" *ngIf="isEdit">
+        <button class="man" (click)="ManGender()" *ngIf="isGender" style="background-color: #422912">Nam</button>
+        <button class="man" (click)="ManGender()" *ngIf="!isGender">Nam</button>
+        <button class="women" (click)="WomenGender()" *ngIf="!isGender" style="background-color: #422912">Nữ</button>
+        <button class="women" (click)="WomenGender()" *ngIf="isGender">Nữ</button>
+      </div>
+    </div>
+    <div class="addressborder">
+      <p class="address">Địa chỉ </p>
+      <p class="show" *ngIf="!isEdit">{{address}}</p>
+      <input class="input" *ngIf="isEdit" type="text" [(ngModel)]="address" />
+    </div>
+    <div class="phonenumberborder">
+      <p class="phonenumber">Điện thoại </p>
+      <p class="show" *ngIf="!isEdit">{{phonenumber}}</p>
+      <input class="input" *ngIf="isEdit" type="text" [(ngModel)]="phonenumber" />
+    </div>
+
+    <!-- <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+    <button (click)="fileInput.click()">Select File</button>
+    <button (click)="onUpload()">Upload!</button> -->
+
+    <div class="changepassword" [@openClose]="isOpen ? 'open' : 'closed'">
+      <form [formGroup]="passwordForm">
+        <div class="oldpwborder" *ngIf="isPW">
+          <p class="oldpw">Mật khẩu cũ</p>
+          <input class="input" type="password" formControlName="OldPassword" [(ngModel)]="oldpw" />
+        </div>
+        <div class="newpwborder" *ngIf="isPW">
+          <p class="newpw">Mật khẩu mới</p>
+          <input class="input" type="password" formControlName="NewPassword" [(ngModel)]="newpw" />
+        </div>
+        <div class="confirmborder" *ngIf="isPW">
+          <p class="confirm">Nhập lại</p>
+          <input class="input" type="password" formControlName="ConfirmPassword" [(ngModel)]="confirm">
+          <br>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+  <hr width="70%%" size="3px" text-align="center" color="#422912" margin-top="0px" />
+  <div class="function">
+    <button class="button" (click)="onClickEdit()" *ngIf="Edit == false && Changepw == false">Chỉnh sửa</button>
+    <button class="button" (click)="onClickSaveInfor()" *ngIf="Edit">Lưu</button>
+    <button class="button" (click)="onClickCancel()" *ngIf="Edit">Hủy</button>
+    <button class="button" (click)="onClickPW()" *ngIf="Edit == false && Changepw == false">Mật Khẩu</button>
+    <button class="button" (click)="onClickSavePW()" *ngIf="Changepw" [disabled]="!passwordForm.valid">Lưu</button>
+    <button class="button" (click)="onClickCancel()" *ngIf="Changepw">Hủy</button>
+    <button class="button" (click)="onClickExit()">Thoát</button>
+  </div>
+  <br>
+  <p class="alert alert-danger" *ngIf="passwordForm.controls.ConfirmPassword.invalid && passwordForm.controls.ConfirmPassword.dirty">* Mật
+    khẩu nhập lại không trùng khớp với mật khẩu mới</p>
+  <div *ngIf="(passwordForm.controls.ConfirmPassword.invalid && (passwordForm.controls.ConfirmPassword.dirty || passwordForm.controls.ConfirmPassword.touched))
+              ||(passwordForm.controls.OldPassword.invalid && (passwordForm.controls.OldPassword.dirty || passwordForm.controls.OldPassword.touched))
+              ||(passwordForm.controls.NewPassword.invalid && (passwordForm.controls.NewPassword.dirty || passwordForm.controls.NewPassword.touched))"
+    class="alert alert-danger">
+    ĐIỀU KIỆN NHẬP:
+    <br> * Không bỏ trống thông tin mật khẩu.
+    <br> * Ít nhất 8 kí tự, tối đa 50 kí tự
+    <br> * Chứa ít nhất 1 kí tự in hoa, 1 kí tự thường và 1 số .
+    <br> * Không có kí tự đặc biệt
+  </div>
+
+</div>
